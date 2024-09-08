@@ -3,7 +3,8 @@ import os
 import json
 
 import google.generativeai as genai
-genai.configure(api_key=os.environ['API_KEY'])
+api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=api_key)
 model = genai.GenerativeModel(model_name='gemini-1.5-pro')
 
 def generate_readme_using_llm(prompt):
