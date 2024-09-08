@@ -20,6 +20,15 @@ jobs:
         pwd
         ls -R # List all files to ensure scripts exist and are accessible
         
+    - name: Set up Python environment
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'  # Use your preferred Python version
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt  # Install all required dependencies
+        
     - name: Fetch All Repositories
       id: repos
       run: |
