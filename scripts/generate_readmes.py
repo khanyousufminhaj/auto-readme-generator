@@ -8,10 +8,11 @@ import google.generativeai as genai
 api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel(model_name='gemini-1.5-pro')
+print(model.generate_content('hi'))
 
 def generate_readme_using_llm(prompt):
     """Generate README using an LLM like Gemini."""
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt).text
     return response
 
 # GitHub API and Token
@@ -26,7 +27,7 @@ def fetch_repo_files(owner, repo_name):
     if response.status_code == 200:
         files = response.json().get('tree', [])
         # Filter to only include code files (e.g., .py, .js, .cpp, etc.)
-        code_files = [file['path'] for file in files if file['path'].endswith(('.py', '.js', '.cpp', '.java'))]
+        code_files = [file['path'] for file in files if file['path'].endswith(('.py', '.js', '.cpp', '.java','.ipynb','.html','.css'))]
         return code_files
     else:
         print(f"Failed to fetch files for {repo_name}. Status Code: {response.status_code}")
