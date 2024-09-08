@@ -12,7 +12,14 @@ jobs:
     steps:
     - name: Checkout this repo
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # Ensure full checkout
 
+    - name: Debug Current Directory and Files
+      run: |
+        pwd
+        ls -R # List all files to ensure scripts exist and are accessible
+        
     - name: Fetch All Repositories
       id: repos
       run: |
@@ -23,8 +30,8 @@ jobs:
         
     - name: Loop Through Repositories and Generate README
       run: |
-        python3 scripts/generate_readmes.py
+        python3 ${{ github.workspace }}/scripts/generate_readmes.py
           
     - name: Commit and Push README to Each Repo
       run: |
-        python3 scripts/commit_readmes.py
+        python3 ${{ github.workspace }}/scripts/commit_readmes.py
