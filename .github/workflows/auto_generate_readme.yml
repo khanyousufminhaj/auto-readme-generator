@@ -1,0 +1,30 @@
+name: Auto Generate README for All Repos
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs once a day; adjust this as needed
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  generate-readmes:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+
+    - name: Fetch All Repositories
+      id: repos
+      run: |
+        curl -H "Authorization: token ${{ secrets.PAT }}" \
+        https://api.github.com/user/repos?per_page=100 \
+        > repos.json
+        echo "Repos fetched: $(jq '.[] | .name' repos.json)"
+        
+    - name: Loop Through Repositories and Generate README
+      run: |
+        python3 generate_readmes.py
+          
+    - name: Commit and Push README to Each Repo
+      run: |
+        python3 commit_readmes.py
