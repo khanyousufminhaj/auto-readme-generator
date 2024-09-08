@@ -23,8 +23,8 @@ jobs:
         
     - name: Loop Through Repositories and Generate README
       run: |
-        python3 generate_readmes.py
+        python3 scripts/generate_readmes.py
           
     - name: Commit and Push README to Each Repo
       run: |
-        python3 commit_readmes.py
+        python3 scripts/commit_readmes.py
